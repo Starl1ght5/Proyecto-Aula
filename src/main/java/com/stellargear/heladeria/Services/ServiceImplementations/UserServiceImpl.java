@@ -2,6 +2,7 @@ package com.stellargear.heladeria.Services.ServiceImplementations;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +19,10 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository user_repo;
+    ///private final PasswordEncoder password_encoder;
 
 
-   /// TODO implementar la encriptacion de contraseñas
+   /// TODO terminar de implementar la encriptacion de contraseñas
    /// TODO implementar mejor el manejo de errores y exepciones
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService{
             return 3;
         }
     }
+
 
     @Override
     public int login(UserDTO login_attempt) {
@@ -79,6 +82,7 @@ public class UserServiceImpl implements UserService{
     public boolean isEmailTaken(String requested_email) {
         return user_repo.searchByEmail(requested_email) != null;
     }
+
 
     /// Search Methods
     @Override

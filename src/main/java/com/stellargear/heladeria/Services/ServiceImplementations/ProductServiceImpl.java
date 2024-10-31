@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.stellargear.heladeria.Models.DTOs.ProductDTO;
 import com.stellargear.heladeria.Models.Entities.Category;
@@ -35,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         added_product.setName(new_product.getName());
         added_product.setDescription(new_product.getDescription());
         added_product.setPrice(new_product.getPrice());
-        added_product.setCategory(category_serv.dtoToObject(new_product.getCategory()));
+        added_product.setCategory(category_serv.dtoToObject(category_serv.searchByID(new_product.getCategory_id())));
         product_repo.save(added_product);
         image_serv.uploadImage(added_product.getProduct_id(), new_product.getImage());
     }

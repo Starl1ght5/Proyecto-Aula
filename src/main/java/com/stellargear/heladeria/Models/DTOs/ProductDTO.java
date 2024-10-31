@@ -14,9 +14,11 @@ public class ProductDTO {
     private String name;
     private String description;
     private CategoryDTO category;
+    private String category_id;
     private int price;
-    @Transient
     private MultipartFile image;
 
     public ProductDTO() {};
+
+
 }

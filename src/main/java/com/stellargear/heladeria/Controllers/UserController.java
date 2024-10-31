@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 public class UserController {
     
     private final UserService user_serv;
 
-    
-    @CrossOrigin
+
     @PostMapping(path="/api/user/add")
     public ResponseEntity<?> addUser(@RequestBody UserDTO new_account_attempt) {
         int response = user_serv.addUser(new_account_attempt);
@@ -32,7 +32,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin
     @PostMapping(path="/api/user/login")
     public ResponseEntity<?> login(@RequestBody UserDTO login_attempt) {
         int response = user_serv.login(login_attempt);
@@ -46,7 +45,7 @@ public class UserController {
         };
     }
 
-    @CrossOrigin
+
     @GetMapping(path="/api/user/listAll")
     public List<UserDTO> listAll() {
         return user_serv.listAll();
