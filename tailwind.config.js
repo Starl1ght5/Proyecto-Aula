@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         "opensans": ["Open Sans", "sans-serif"],
         "yellowtail": ["Yellowtail", "cursive"],
+        "monsterrat": ["Montserrat", "sans-serif"],
       },
 
       colors: {
@@ -16,6 +17,7 @@ module.exports = {
 
       backgroundImage: theme => ({
         'login-background': "url('../public/ice_cream_bg_1.jpg')",
+        'test-background': "url('../public/5949462.jpg')",
        })
     },
   },
