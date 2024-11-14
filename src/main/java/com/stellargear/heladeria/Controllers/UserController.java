@@ -34,14 +34,14 @@ public class UserController {
 
     @PostMapping(path="/api/user/login")
     public ResponseEntity<?> login(@RequestBody UserDTO login_attempt) {
-        int response = user_serv.login(login_attempt);
+        UserDTO response = user_serv.login(login_attempt);
+        int status = response.getUser_type();
 
-        return switch (response) {
-            case 1 -> new ResponseEntity<>(HttpStatus.OK);
-            case 2 -> new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return switch (status) {
+            case 1 -> new ResponseEntity<UserDTO>(response, HttpStatus.OK);
+            case 2 -> new ResponseEntity<UserDTO>(response, HttpStatus.ACCEPTED);
             case 3 -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            case 4 -> new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            default -> new ResponseEntity<>(HttpStatus.NOT_FOUND);
         };
     }
 

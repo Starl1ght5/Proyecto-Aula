@@ -6,7 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 
-    public void uploadImage(String product_id, MultipartFile image);
+    void uploadProductImage(String product_id, MultipartFile image);
+    void uploadCategoryImage(String category_id, MultipartFile image);
 
-    public ResponseEntity<Resource> getImage(String requested_id);
+    ResponseEntity<Resource> getCategoryImage(String requested_id);
+    ResponseEntity<Resource> getProductImage(String requested_id);
 }

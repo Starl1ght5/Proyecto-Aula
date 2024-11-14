@@ -20,17 +20,31 @@ import java.nio.file.Paths;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private final String IMAGE_STORAGE_FILE_PATH;
+    private final String PRODUCT_IMAGE_STORAGE_FILE_PATH;
+    private final String CATEGORY_IMAGE_STORAGE_FILE_PATH;
 
     @Autowired
-    public ImageServiceImpl (@Value("${user.image_file_path}") String file_path) {
-        this.IMAGE_STORAGE_FILE_PATH = file_path;
+    public ImageServiceImpl (@Value("${user.product_image_file_path}") String file_path_1, @Value("${user.category_image_file_path}") String file_path_2) {
+        this.PRODUCT_IMAGE_STORAGE_FILE_PATH = file_path_1;
+        this.CATEGORY_IMAGE_STORAGE_FILE_PATH = file_path_2;
     }
 
 
-    public void uploadImage(String product_id, MultipartFile image) {
+    public void uploadProductImage(String product_id, MultipartFile image) {
         try {
-            String image_file_path = IMAGE_STORAGE_FILE_PATH + product_id + ".png";
+            String image_file_path = PRODUCT_IMAGE_STORAGE_FILE_PATH + product_id + ".png";
+            File final_path = new File(image_file_path);
+            image.transferTo(final_path);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void uploadCategoryImage(String category_id, MultipartFile image) {
+        try {
+            String image_file_path = CATEGORY_IMAGE_STORAGE_FILE_PATH + category_id + ".png";
             File final_path = new File(image_file_path);
             image.transferTo(final_path);
 
@@ -47,10 +61,29 @@ public class ImageServiceImpl implements ImageService {
     ///}
 
 
-    public ResponseEntity<Resource> getImage(String requested_id) {
+    public ResponseEntity<Resource> getCategoryImage(String requested_id) {
+        try {
+            String image_route = CATEGORY_IMAGE_STORAGE_FILE_PATH + requested_id + ".png";
+
+            Path image_path = Paths.get(image_route);
+            byte[] image_bytes = Files.readAllBytes(image_path);
+            ByteArrayResource resource = new ByteArrayResource(image_bytes);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(resource);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+    }
+
+    public ResponseEntity<Resource> getProductImage(String requested_id) {
         try {
 
-            String image_route = IMAGE_STORAGE_FILE_PATH + requested_id + ".png";
+            String image_route = PRODUCT_IMAGE_STORAGE_FILE_PATH + requested_id + ".png";
 
             Path image_path = Paths.get(image_route);
             byte[] image_bytes = Files.readAllBytes(image_path);

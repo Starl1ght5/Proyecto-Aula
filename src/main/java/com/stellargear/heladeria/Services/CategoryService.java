@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
 import com.stellargear.heladeria.Models.Entities.Category;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public interface CategoryService {
     
-    void addCategory(String category_name);
+    ResponseEntity<?> addCategory(CategoryDTO new_category);
     void deleteCategory(String category_id);
     void updateCategory(String category_id, String new_name);
 

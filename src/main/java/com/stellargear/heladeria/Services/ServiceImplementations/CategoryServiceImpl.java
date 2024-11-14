@@ -3,6 +3,9 @@ package com.stellargear.heladeria.Services.ServiceImplementations;
 import java.util.List;
 import java.util.Optional;
 
+import com.stellargear.heladeria.Services.ImageService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,21 +17,26 @@ import com.stellargear.heladeria.Services.CategoryService;
 import lombok.RequiredArgsConstructor;
 
 import com.stellargear.heladeria.Models.Entities.Category;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository category_repo;
+    private final ImageService image_serv;
 
 
     /// Manipulation Methods
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addCategory (String category_name) {
+    public ResponseEntity<?> addCategory (CategoryDTO new_category) {
         Category added_category = new Category();
-        added_category.setName(category_name);
+        added_category.setName(new_category.getName());
         category_repo.save(added_category);
+        image_serv.uploadCategoryImage(added_category.getCategory_id(), new_category.getImage());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 

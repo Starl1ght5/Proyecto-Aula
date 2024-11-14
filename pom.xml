@@ -47,6 +47,11 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>28.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -2,6 +2,7 @@ package com.stellargear.heladeria.Controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,10 +21,9 @@ public class ProductController {
 
 
     @PostMapping(path="/api/product/add")
-    public void addProduct (@RequestBody ProductDTO new_product) {
-        product_serv.addProduct(new_product);
+    public ResponseEntity<?> addProduct (@ModelAttribute ProductDTO new_product) {
+        return product_serv.addProduct(new_product);
     }
-
 
     @PutMapping(path="/api/product/update")
     public void updateProduct(@RequestBody ProductDTO updated_product, @RequestBody String requested_id) {
@@ -37,7 +37,14 @@ public class ProductController {
     }
 
 
-    ///Search Routes
+    /// Search Routes
+    @GetMapping(path="/api/product/search/{name}")
+    public ProductDTO searchProductByName(@PathVariable String name) {
+        return product_serv.searchProductByName(name);
+    }
+
+
+    /// List Routes
     @GetMapping(path="/api/product/listAll")
     public List<ProductDTO> listAllProducts() {
         return product_serv.listAll();

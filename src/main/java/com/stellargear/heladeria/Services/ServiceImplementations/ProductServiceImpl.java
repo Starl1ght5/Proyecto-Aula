@@ -1,8 +1,12 @@
 package com.stellargear.heladeria.Services.ServiceImplementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,7 @@ import com.stellargear.heladeria.Services.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,14 +34,15 @@ public class ProductServiceImpl implements ProductService {
     /// Manipulation Methods
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addProduct(ProductDTO new_product) {
+    public ResponseEntity<?> addProduct(ProductDTO new_product) {
         Product added_product = new Product();
         added_product.setName(new_product.getName());
         added_product.setDescription(new_product.getDescription());
         added_product.setPrice(new_product.getPrice());
         added_product.setCategory(category_serv.dtoToObject(category_serv.searchByID(new_product.getCategory_id())));
         product_repo.save(added_product);
-        image_serv.uploadImage(added_product.getProduct_id(), new_product.getImage());
+        image_serv.uploadProductImage(added_product.getProduct_id(), new_product.getImage());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 
@@ -53,10 +59,9 @@ public class ProductServiceImpl implements ProductService {
             updated_product.setPrice(new_details.getPrice());
             updated_product.setCategory(category_serv.dtoToObject(new_details.getCategory()));
             product_repo.save(updated_product);
-            image_serv.uploadImage(updated_product.getProduct_id(), new_details.getImage());
+            image_serv.uploadProductImage(updated_product.getProduct_id(), new_details.getImage());
         }
     }
-
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -66,6 +71,18 @@ public class ProductServiceImpl implements ProductService {
 
 
     /// Search Methods
+    @Override
+    public ProductDTO searchProductByName(String requested_name) {
+        return objectToDto(product_repo.searchByName(requested_name));
+    }
+
+    @Override
+    public ProductDTO searchProductById(String requested_id) {
+        return objectToDto(product_repo.searchById(requested_id));
+    }
+
+
+    /// List Methods
     @Override
     public List<ProductDTO> listAll() {
         return product_repo.findAll().stream()
@@ -106,6 +123,7 @@ public class ProductServiceImpl implements ProductService {
         requested_object.setCategory(category_serv.dtoToObject(requested_dto.getCategory()));
         requested_object.setPrice(requested_dto.getPrice());
         requested_object.setDescription(requested_dto.getDescription());
+        requested_object.setQuantity(requested_dto.getQuantity());
         return requested_object;
     }
 
@@ -118,6 +136,29 @@ public class ProductServiceImpl implements ProductService {
         requested_dto.setCategory(category_serv.objectToDto((requested_object.getCategory())));
         requested_dto.setPrice(requested_object.getPrice());
         requested_dto.setDescription(requested_object.getDescription());
+        requested_dto.setQuantity(requested_object.getQuantity());
         return requested_dto;
+    }
+
+    @Override
+    public List<Product> dtoListToObject(List<ProductDTO> requested_list) {
+        List<Product> returned_list = new ArrayList<>();
+
+        for (ProductDTO productDTO : requested_list) {
+            returned_list.add(dtoToObject(productDTO));
+        }
+
+        return returned_list;
+    }
+
+    @Override
+    public List<ProductDTO> objectListToDto(List<Product> requested_list) {
+        List<ProductDTO> returned_list = new ArrayList<>();
+
+        for (Product product : requested_list) {
+            returned_list.add(objectToDto(product));
+        }
+
+        return returned_list;
     }
 }

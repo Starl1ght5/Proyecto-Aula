@@ -11,5 +11,11 @@ import com.stellargear.heladeria.Models.Entities.Product;
 public interface ProductRepository extends MongoRepository<Product, String> {
     
     @Query("{ 'category' : ?0 }")
-    List<Product> searchAllByCategory(Category category);
+    List<Product> searchAllByCategory(Category requested_category);
+
+    @Query("{ 'name' : ?0 }")
+    Product searchByName(String requested_name);
+
+    @Query("{ 'product_id' : ?0 }")
+    Product searchById(String requested_id);
 }

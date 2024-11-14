@@ -17,6 +17,7 @@ public class ProductDTO {
     private String category_id;
     private int price;
     private MultipartFile image;
+    private int quantity;
 
     public ProductDTO() {};
 

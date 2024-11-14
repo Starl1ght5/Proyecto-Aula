@@ -1,7 +1,11 @@
 package com.stellargear.heladeria.Services.ServiceImplementations;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.stellargear.heladeria.Models.Entities.Product;
+import com.stellargear.heladeria.Services.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,11 +18,13 @@ import com.stellargear.heladeria.Services.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepository user_repo;
+    private final ProductService product_serv;
     ///private final PasswordEncoder password_encoder;
 
 
@@ -37,6 +43,7 @@ public class UserServiceImpl implements UserService{
             new_user.setEmail(requested_new_user.getEmail());
             new_user.setPassword(requested_new_user.getPassword());
             new_user.setUser_type(1);
+            new_user.setUser_cart(new ArrayList<Product>());
             user_repo.save(new_user);
             return 1;
         } else if (is_email_taken) {
@@ -46,37 +53,42 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    @Transactional
+    public void updateUserCart(User updated_cart) {
+        System.out.println(updated_cart);
+        user_repo.save(updated_cart);
+    }
 
     @Override
-    public int login(UserDTO login_attempt) {
+    public UserDTO login(UserDTO login_attempt) {
         User requested_user = user_repo.searchByName(login_attempt.getUsername());
 
         if (requested_user != null) {
             boolean correct_password = requested_user.getPassword().equals(login_attempt.getPassword());
+            UserDTO response = objectToDto(requested_user);
+
             if (correct_password) {
-                if (requested_user.getUser_type() == 1) {
-                    return 1;
-                } else {
-                    return 2;
-                }
+                return response;
             } else {
-                return 3;
+                UserDTO empty = new UserDTO();
+                empty.setUser_type(3);
+                return empty;
             }
         } else {
-            return 4;
+            return null;
         }
     }
     /// 1 es iniciar como usuario
     /// 2 es iniciar como admin
     /// 3 es contrasela incorrecta
-    /// 4 usuario no encontrado
+    /// default es usuario no encontrado
 
     /// Helper Methods
     @Override
     public boolean isUsernameTaken(String requested_username) {
         return user_repo.searchByName(requested_username) != null;
     }
-
     
     @Override
     public boolean isEmailTaken(String requested_email) {
@@ -85,6 +97,13 @@ public class UserServiceImpl implements UserService{
 
 
     /// Search Methods
+    @Override
+    public User searchUserById(String requested_user_id) {
+        return user_repo.searchById(requested_user_id);
+    }
+
+
+    /// List Methods
     @Override
     public List<UserDTO> listAll() {
         return user_repo.findAll().stream()
@@ -109,9 +128,9 @@ public class UserServiceImpl implements UserService{
         requested_object.setPassword(requested_dto.getPassword());
         requested_object.setEmail(requested_dto.getEmail());
         requested_object.setUser_type(requested_dto.getUser_type());
+        requested_object.setUser_cart(product_serv.dtoListToObject(requested_dto.getUser_cart()));
         return requested_object;
     }
-
 
     @Override
     public UserDTO objectToDto(User requested_object) {
@@ -121,6 +140,29 @@ public class UserServiceImpl implements UserService{
         requested_dto.setPassword(requested_object.getPassword());
         requested_dto.setEmail(requested_object.getEmail());
         requested_dto.setUser_type(requested_object.getUser_type());
+        requested_dto.setUser_cart(product_serv.objectListToDto(requested_object.getUser_cart()));
         return requested_dto;
+    }
+
+    @Override
+    public List<User> dtoListToObject(List<UserDTO> requested_list) {
+        List<User> returned_list = new ArrayList<>();
+
+        for (UserDTO userDTO : requested_list) {
+            returned_list.add(dtoToObject(userDTO));
+        }
+
+        return returned_list;
+    }
+
+    @Override
+    public List<UserDTO> objectListToDto(List<User> requested_list) {
+        List<UserDTO> returned_list = new ArrayList<>();
+
+        for (User user : requested_list) {
+            returned_list.add(objectToDto(user));
+        }
+
+        return returned_list;
     }
 }

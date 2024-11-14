@@ -3,18 +3,13 @@ package com.stellargear.heladeria.Controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
 import com.stellargear.heladeria.Services.CategoryService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,8 +21,8 @@ public class CategoryController {
 
     /// Manipulation Routes
     @PostMapping(path="/api/category/add")
-    public void addCategory(@RequestParam String category_name) {
-        category_serv.addCategory(category_name);
+    public ResponseEntity<?> addCategory(@ModelAttribute CategoryDTO new_category) {
+        return category_serv.addCategory(new_category);
     }
 
 
