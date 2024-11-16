@@ -51,8 +51,8 @@ public class ProductController {
     }
 
 
-    @GetMapping(path="/api/product/listByCategory")
-    public List<ProductDTO> listByCategory(@RequestParam String category_id) {
-        return product_serv.listByCategory(category_id);
+    @GetMapping(path="/api/product/category/search/{requested_id}")
+    public List<ProductDTO> listByCategory(@PathVariable String requested_id) {
+        return product_serv.listByCategory(requested_id);
     }
 }

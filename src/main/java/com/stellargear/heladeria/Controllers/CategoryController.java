@@ -44,4 +44,5 @@ public class CategoryController {
     public List<CategoryDTO> listAllCategory() {
         return category_serv.listAll();
     }
+
 }

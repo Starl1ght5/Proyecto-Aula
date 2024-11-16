@@ -72,10 +72,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO searchByID(String requested_id) {
-        Optional<Category> db_object = category_repo.findById(requested_id);
+        Category db_object = category_repo.searchByID(requested_id);
         CategoryDTO returned_dto = new CategoryDTO();
-        returned_dto.setCategory_id(db_object.get().getCategory_id());
-        returned_dto.setName(db_object.get().getName());
+        returned_dto.setCategory_id(db_object.getCategory_id());
+        returned_dto.setName(db_object.getName());
         return returned_dto;
     }
     
