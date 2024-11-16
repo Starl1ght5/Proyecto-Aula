@@ -7,26 +7,75 @@ import { Helmet } from 'react-helmet';
 
 export default function MenuPage () {
 
-    const [ product, setProduct ] = useState([]);
+    const [ products, setProducts ] = useState([]);
+    const [ categories, setCategories ] = useState([]);
+    const [ selectedCategory, setSelectedCategory ] = useState(null);
 
-    useEffect(() => {
-        const getProducts = async () => {
+
+    const onChange = async (event) => {
+        const value = event.target.value;
+        setSelectedCategory(value);
+        await fetchNewProducts(value);
+    }
+
+
+    const clearSelection = async () => {
+        setSelectedCategory(null);
+        await fetchAllProducts();
+    }
+
+
+    const fetchNewProducts = async (category) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/product/category/search/${category}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            })
+            response.json().then(json => {
+                setProducts(json);
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
+    const fetchAllProducts = async () => {
         try {
             const response = await fetch("http://localhost:8080/api/product/listAll", {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             })
             response.json().then(json => {
-                setProduct(json);
+                setProducts(json);
             })
-  
+
         } catch (e) {
             console.log(e);
         }
     }
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/category/listAll", {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                response.json().then(json => {
+                    setCategories(json);
+                })
+                    
+            } catch (e) {
+                console.log(e);
+            }
+        }
     
-    getProducts();
-    })
+
+        fetchAllProducts();  
+        fetchCategories();
+    }, [])
 
 
     return (
@@ -35,25 +84,58 @@ export default function MenuPage () {
 
             <Navbar/>
 
-            <section class="py-10 pt-28 mx-auto">
+            <div className='flex flex-col sm:flex-row gap-4 sm:gap-10 pt-10 border-t px-20' >
 
-                <div class="w-full p-2 pb-4 flex justify-center">
-				    <h1 class="font-bold text-pink-600 text-5xl">Nuestros Productos</h1>
-			    </div>
+                <div className='min-w-60' >
 
-                <hr class="h-[4px] bg-pink-600 border-pink-600 w-96 place-self-center"/>
-          
-                <div class="gap-8 py-10 grid grid-cols-3 px-20">
-                    {product.map( element => {
-                        const { product_id, name, price } = element;
+                    <p className='my-2 text-2xl flex items-center cursor-pointer gap-2' >Filtrar por</p>
 
-                        return (
-                            <ProductCard name={name} id={product_id} price={price} />
-                        );
-                    })}
+                    <div className='flex flex-col gap-2 text-md font-light' >
+
+                        <div className='border border-gray-300 pl-5 py-3 mt-3 sm:block' >
+
+                            <p className='mb-3 text-lg font-medium' >Categorias</p>
+                            <div className='flex flex-col gap-2 text-sm font-light text-gray-700' >
+                            {categories.map(element => {
+                                const { category_id, name } = element;
+
+                                return (
+                                    <p className='flex gap-2 text-md' >
+                                        <input className='w-3' name='category' type="radio" value={category_id} onChange={onChange} checked={selectedCategory === String(category_id)} />
+                                        {name}
+                                    </p>
+                                )
+                            })}
+                            <button onClick={clearSelection} >Limpiar Filtros</button>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
-          
-            </section>
+
+                <div className='flex-1' >
+
+                    <div className='flex justify-between text-base sm:text-2xl mb-4' >
+                        <div className='inline-flex gap-2 items-center mb-6' >
+                            <p className='text-gray-500 text-3xl' >Nuestros <span className='text-pink-600 font-medium' >Productos</span></p>
+                            <p className='w-8 sm:w-12 h-[1px] sm:h-[2px] mt-1 bg-gray-700' ></p>
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6' >
+                        {products.map(element => {
+                            const {product_id, name, price } = element;
+
+                            return (
+                                <ProductCard name={name} price={price} id={product_id} />
+                            ) 
+                        })}
+                    </div>
+
+                </div>
+
+            </div>
 
             <Footer />
 

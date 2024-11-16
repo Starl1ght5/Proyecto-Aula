@@ -1,57 +1,46 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export const ProductCard = ({
     id,
     name,
-    price,
-
+    price
 }) => {
 
-    const navigate = useNavigate();
     const [ image, setImage] = useState([]);
-    
-    function redirectPage() {
-        navigate(`/product/${name}`);
-    }
-
-    async function fetchImage(id) {
-        try {
-            const response = await fetch(`http://localhost:8080/api/images/product/${id}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                setImage(url);
-            }
-
-
-        } catch(e) {
-            console.log(e);
-        }
-    }
 
     useEffect(() => {
+        const fetchImage = async (id) => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/images/product/${id}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+    
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    setImage(url);
+                }
+    
+            } catch(e) {
+                console.log(e);
+            }
+        }
+
+
         fetchImage(id);
-    })
+    }, [id])
 
 
     return (
-        <div class="hover:-translate-y-2 duration-300 justify-center place-self-center" onClick={redirectPage}>
-            <div class="bg-pink-400 border border-pink-400 rounded-full p-7 size-80 place-self-center">
-                <button type="button">
-                    <img src={image} alt={name} class="size-[280px]"/>
-                </button>
+        <Link className='cursor-pointer border p-4 rounded-xl' to={`/product/${name}`} >
+            <div className='overflow-hidden' >
+                <img src={image} alt={name} className='hover:scale-110 ease-in-out duration-300' />
             </div>
-            <div class="text-center">
-                <h2 class="text-2xl pt-1 text-pink-600 font-[500]" >{name}</h2>
-                <h3 class="text-sm">${price} COP</h3>
-            </div>
-            
-        </div>
+            <p className='pt-3 pb-1 test-sm' >{name}</p>
+            <p className='text-sm font-medium' >{price.toLocaleString('es-CO')} COP</p>
+        </Link>
     )
 }

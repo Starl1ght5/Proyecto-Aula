@@ -61,7 +61,7 @@ export default function LoginPage () {
               const { name, category_id } = element;
 
               return (
-                <CategoryCard title={name} />
+                <CategoryCard title={name} id={category_id}/>
               );
             })}
           </div>

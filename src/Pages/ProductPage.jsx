@@ -12,39 +12,6 @@ export default function ProductPage () {
     const [ image, setImage ] = useState([]);
 
 
-    const fetchProductInfo = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/product/search/${params.product_name}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            response.json().then(json => {
-                setProduct(json);
-            })
-
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const fetchProductImage = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/images/product/${product.product_id}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                setImage(url);
-            }
-
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     const addToCart = async () => {
         try {
 
@@ -71,6 +38,42 @@ export default function ProductPage () {
     }
 
     useEffect(() => {
+
+        const fetchProductInfo = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/product/search/${params.product_name}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                response.json().then(json => {
+                    setProduct(json);
+                })
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+
+        const fetchProductImage = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/images/product/${product.product_id}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+    
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    setImage(url);
+                }
+    
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+
         fetchProductInfo();
         fetchProductImage();
     })
@@ -80,28 +83,32 @@ export default function ProductPage () {
         <div>
             <Navbar />
 
-                <div class="py-10 pt-20 px-32 flex gap-10">
-                    <div>
-                        <img src={image} alt={product.name} class="size-96"/>
+                <div className='border-t-2 pl-32 transition-opacity ease-in duration-500 opacity-100 py-14 font-outfit' >
+
+                    <div className='flex flex-col gap-12 sm:gap-12 sm:flex-row' >
+
+                        <div className='flex flex-1 flex-col-reverse gap-3 sm:flex-row' >
+                            <div className='w-full sm:w-[80%] p-6 bg-pink-600 rounded-full' >
+                                <img src={image} alt={product.name} className='w-full h-auto' />
+                            </div>
+                        </div>
+
+                        <div className='flex-1'>
+                            <h1 className='font-medium text-2xl mt-2' >{product.name}</h1>
+                            <p className='mt-5 text-3xl font-medium' >{product.price?.toLocaleString('es-CO')} COP</p>
+
+                            <div className='mt-5' >
+                                <p className='text-xl' >Contiene:</p>
+                                <p className='mt-4 mb-6 text-gray-500 md:w-4/5' >{product.description}</p>
+                            </div>
+                            <button className='text-white bg-pink-600 px-8 py-3 text-sm hover:bg-blue-600' onClick={addToCart} >Añadir al carrito </button>
+                        </div>
+
                     </div>
-
-                    <div class="gap-y-4 flex flex-col max-w-[500px] pl-10 pt-6">
-                        <div>
-                            <h1 class="text-2xl font-bold">{product.name}</h1>
-                        </div>
-                        <div class="h-52">
-                            <p>{product.description}</p>
-                        </div>
-                        <div>
-                            <h2>${product.price} COP</h2>
-                        </div>
-                        
-                        {user && <div class="flex justify-center"><button class="text-white bg-pink-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm py-4 px-6 text-center" onClick={addToCart}>Añadir Al Carrito</button></div>}
-                    </div>  
-
+                    
                 </div>
 
-            <Footer class="pt-2" />
+            <Footer />
         </div>
     )
 }

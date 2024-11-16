@@ -1,44 +1,28 @@
 export default function Footer () {
     return (
-    <footer class="bg-pink-600 py-6 text-white">
 
-        <div class="mx-auto w-full max-w-screen-xl p-4 px-6 lg:py-8">
-
-            <div class="md:flex md:justify-between">
-
-                <div class="grid grid-cols-4 gap-2 sm:gap-6 sm:grid-cols-3 w-full text-center">
-
-                    <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                    </div>
-
-                    <div>
-                        <h2 class="mb-6 text-lg font-semibold text-white uppercase ">Follow us</h2>
-                        <ul class="text-white font-medium">
-                            <li class="mb-4">
-                                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
-                            </li>
-                            <li>
-                                <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h2 class="text-lg" >Newsletter</h2>
-                    </div>
-
-                </div>
-
+    <div className='bg-pink-600 text-white' >
+        <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-20 pt-10 px-24 text-sm' >
+            <div>
+                <p className='text-xl font-medium mb-5' >Lo que sea</p>
+                <p className='w-full md:w2/3' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
             </div>
-
+            <div>
+                <p className='text-xl font-medium mb-5' >Lo que sea</p>
+                <ul className='flex flex-col gap-1' >
+                    <li>Inicio</li>
+                    <li>Menu</li>
+                    <li></li>
+                </ul>
+            </div>
+            <div>
+                <p className='text-xl font-medium mb-5' >Lo que sea</p>
+            </div>
         </div>
-
-        <hr class="my-2 border-white sm:mx-aut lg:my-8" />
-        <div class="text-center">
-            <p>Todos los derechos reservados 2024™</p>
+        <div>
+            <hr className='bg-complementary' />
+            <p className='py-5 text-sm text-center'>Todos los derechos reservados 2024</p>
         </div>
-
-    </footer>
+    </div>
     )
 }

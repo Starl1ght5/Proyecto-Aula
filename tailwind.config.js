@@ -6,9 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "opensans": ["Open Sans", "sans-serif"],
-        "yellowtail": ["Yellowtail", "cursive"],
         "monsterrat": ["Montserrat", "sans-serif"],
+        "outfit": ["Outfit", "sans-serif"],
       },
 
       colors: {

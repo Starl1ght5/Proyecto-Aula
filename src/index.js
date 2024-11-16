@@ -52,7 +52,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
       <StateComponent>
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />
       </StateComponent>
     </React.StrictMode>
   
