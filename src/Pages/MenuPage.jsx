@@ -92,7 +92,7 @@ export default function MenuPage () {
 
                     <div className='flex flex-col gap-2 text-md font-light' >
 
-                        <div className='border border-gray-300 pl-5 py-3 mt-3 sm:block' >
+                        <div className='border border-gray-300 pl-5 py-3 mt-3 sm:block shadow-lg' >
 
                             <p className='mb-3 text-lg font-medium' >Categorias</p>
                             <div className='flex flex-col gap-2 text-sm font-light text-gray-700' >
@@ -106,7 +106,7 @@ export default function MenuPage () {
                                     </p>
                                 )
                             })}
-                            <button onClick={clearSelection} >Limpiar Filtros</button>
+                            <button onClick={clearSelection} className='mt-2' >Limpiar Filtros</button>
                             </div>
 
                         </div>
@@ -123,7 +123,7 @@ export default function MenuPage () {
                         </div>
                     </div>
 
-                    <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6' >
+                    <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 mb-6' >
                         {products.map(element => {
                             const {product_id, name, price } = element;
 

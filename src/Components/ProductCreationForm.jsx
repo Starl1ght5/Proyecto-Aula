@@ -67,17 +67,17 @@ export default function ProductCreationForm () {
                 <label>Nombre</label>
                 <input type="text" {...register("name", {
                     required: "Nombre del producto requerido" })} />
-                {errors.name && <div class="pt-1 text-sm">{errors.name.message}</div>} 
+                {errors.name && <div className='pt-1 text-sm'>{errors.name.message}</div>} 
 
                 <label>Descripcion</label>
                 <input type="text" {...register("description", {
                     required: "Descripcion requerida" })} />
-                {errors.description && <div class="pt-1 text-sm">{errors.description.message}</div>} 
+                {errors.description && <div className='pt-1 text-sm' >{errors.description.message}</div>} 
 
                 <label>Precio</label>
                 <input type="number" {...register("price", {
                     required: "Precio del producto requerido" })} />
-                {errors.price && <div class="pt-1 text-sm">{errors.price.message}</div>} 
+                {errors.price && <div className='pt-1 text-sm'>{errors.price.message}</div>} 
 
                 <label>Categoria</label>
                 <select {...register("category_id", {
@@ -91,15 +91,15 @@ export default function ProductCreationForm () {
                     )
                 })} 
                 </select>
-                {errors.category_id && <div class="pt-1 text-sm">{errors.category_id.message}</div>} 
+                {errors.category_id && <div className='pt-1 text-sm' >{errors.category_id.message}</div>} 
 
                 <label>Imagen</label>
                 <input type="file" {...register("image", {
                     required: "Imagen requerida" })} />
-                {errors.image && <div class="pt-1 text-sm">{errors.image.message}</div>} 
+                {errors.image && <div className='pt-1 text-sm' >{errors.image.message}</div>} 
 
                 <button disabled={isSubmitting} >Crear</button>
-                {errors.root && <div class="pt-1 text-sm">{errors.root.message}</div>} 
+                {errors.root && <div className='pt-1 text-sm' >{errors.root.message}</div>} 
 
             </form>
         </section>

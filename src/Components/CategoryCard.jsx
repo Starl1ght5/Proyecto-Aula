@@ -28,7 +28,7 @@ export const CategoryCard = ({
         }
 
         fetchImage(id);
-    })
+    }, [])
 
     return (
         <div class="hover:-translate-y-2 duration-300">

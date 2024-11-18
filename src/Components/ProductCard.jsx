@@ -31,11 +31,12 @@ export const ProductCard = ({
 
 
         fetchImage(id);
-    }, [id])
+        
+    }, [])
 
 
     return (
-        <Link className='cursor-pointer border p-4 rounded-xl' to={`/product/${name}`} >
+        <Link className='cursor-pointer border p-4 rounded-xl shadow-lg' to={`/product/${name}`} >
             <div className='overflow-hidden' >
                 <img src={image} alt={name} className='hover:scale-110 ease-in-out duration-300' />
             </div>
