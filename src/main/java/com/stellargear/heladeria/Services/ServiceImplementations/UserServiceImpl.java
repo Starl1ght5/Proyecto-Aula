@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.stellargear.heladeria.Models.Entities.Product;
 import com.stellargear.heladeria.Services.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +21,19 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository user_repo;
     private final ProductService product_serv;
-    ///private final PasswordEncoder password_encoder;
+    private final NewsletterUserServiceImpl newsletter_serv;
+
+    /// private final PasswordEncoder password_encoder;
 
 
-   /// TODO terminar de implementar la encriptacion de contraseñas
-   /// TODO implementar mejor el manejo de errores y exepciones
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int addUser(UserDTO requested_new_user) {
-        
+    public ResponseEntity<?> addUser(UserDTO requested_new_user) {
+
         boolean is_name_taken = isUsernameTaken(requested_new_user.getUsername());
         boolean is_email_taken = isEmailTaken(requested_new_user.getEmail());
 
@@ -45,18 +45,25 @@ public class UserServiceImpl implements UserService{
             new_user.setUser_type(1);
             new_user.setUser_cart(new ArrayList<Product>());
             user_repo.save(new_user);
-            return 1;
+
+            if (requested_new_user.isRegister_for_newsletter()) {
+                newsletter_serv.addNewsletterUserByRegister(new_user);
+            }
+
+            return new ResponseEntity<>(HttpStatus.OK);
+
         } else if (is_email_taken) {
-            return 2;
+            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return 3;
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     @Transactional
     public void updateUserCart(User updated_cart) {
-        System.out.println(updated_cart);
         user_repo.save(updated_cart);
     }
 
@@ -79,17 +86,13 @@ public class UserServiceImpl implements UserService{
             return null;
         }
     }
-    /// 1 es iniciar como usuario
-    /// 2 es iniciar como admin
-    /// 3 es contrasela incorrecta
-    /// default es usuario no encontrado
 
     /// Helper Methods
     @Override
     public boolean isUsernameTaken(String requested_username) {
         return user_repo.searchByName(requested_username) != null;
     }
-    
+
     @Override
     public boolean isEmailTaken(String requested_email) {
         return user_repo.searchByEmail(requested_email) != null;
@@ -107,15 +110,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDTO> listAll() {
         return user_repo.findAll().stream()
-            .map( user -> {
-                UserDTO returned_dto = new UserDTO();
-                returned_dto.setUsername(user.getUsername());
-                returned_dto.setEmail(user.getEmail());
-                returned_dto.setPassword(user.getPassword());
-                returned_dto.setUser_type(user.getUser_type());
-                returned_dto.setUser_id(user.getUser_id());
-                return returned_dto;
-            }).toList();
+                .map(user -> {
+                    UserDTO returned_dto = new UserDTO();
+                    returned_dto.setUsername(user.getUsername());
+                    returned_dto.setEmail(user.getEmail());
+                    returned_dto.setPassword(user.getPassword());
+                    returned_dto.setUser_type(user.getUser_type());
+                    returned_dto.setUser_id(user.getUser_id());
+                    return returned_dto;
+                }).toList();
     }
 
 

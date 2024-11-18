@@ -23,4 +23,16 @@ public class Product {
     private int quantity;
 
     public Product (){};
+
+    public void increaseQuantity(int value) {
+        this.quantity += value;
+    }
+
+    public void decreaseQuantity(int value) {
+        this.quantity -= value;
+
+        if (this.quantity <= 1) {
+            this.quantity = 1;
+        }
+    }
 }

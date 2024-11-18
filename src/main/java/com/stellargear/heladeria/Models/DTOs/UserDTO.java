@@ -13,8 +13,10 @@ public class UserDTO {
     private String username;
     private String password;
     private String email;
+    private boolean register_for_newsletter;
     private int user_type;
     private List<ProductDTO> user_cart;
 
     public UserDTO() {}
+
 }

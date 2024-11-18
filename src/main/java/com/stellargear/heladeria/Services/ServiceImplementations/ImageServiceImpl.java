@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -30,6 +32,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public void uploadProductImage(String product_id, MultipartFile image) {
         try {
             String image_file_path = PRODUCT_IMAGE_STORAGE_FILE_PATH + product_id + ".png";
@@ -41,7 +45,8 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public void uploadCategoryImage(String category_id, MultipartFile image) {
         try {
             String image_file_path = CATEGORY_IMAGE_STORAGE_FILE_PATH + category_id + ".png";
@@ -53,14 +58,7 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    /// TODO Implementar esta mierda
-    ///public void deleteImage(String requested_id) {
-    ///try {
-    ///String image_route = IMAGE_STORAGE_FILE_PATH + requested_id + ".png";
-    ///}
-    ///}
-
-
+    @Override
     public ResponseEntity<Resource> getCategoryImage(String requested_id) {
         try {
             String image_route = CATEGORY_IMAGE_STORAGE_FILE_PATH + requested_id + ".png";
@@ -80,6 +78,7 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
+    @Override
     public ResponseEntity<Resource> getProductImage(String requested_id) {
         try {
 

@@ -49,11 +49,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateProduct(String requested_id, ProductDTO new_details) {
-        Optional<Product> db_product = product_repo.findById(requested_id);
+        Product db_product = product_repo.searchById(requested_id);
 
-        if (db_product.isPresent()) {
+        if (db_product != null) {
             Product updated_product = new Product();
-            updated_product.setProduct_id(db_product.get().getProduct_id());
+            updated_product.setProduct_id(db_product.getProduct_id());
             updated_product.setName(new_details.getName());
             updated_product.setDescription(new_details.getDescription());
             updated_product.setPrice(new_details.getPrice());

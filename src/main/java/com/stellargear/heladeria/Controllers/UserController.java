@@ -21,14 +21,7 @@ public class UserController {
 
     @PostMapping(path="/api/user/add")
     public ResponseEntity<?> addUser(@RequestBody UserDTO new_account_attempt) {
-        int response = user_serv.addUser(new_account_attempt);
-
-        return switch (response) {
-            case 1 -> new ResponseEntity<>(HttpStatus.OK);
-            case 2 -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            case 3 -> new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        };
+        return user_serv.addUser(new_account_attempt);
     }
 
 

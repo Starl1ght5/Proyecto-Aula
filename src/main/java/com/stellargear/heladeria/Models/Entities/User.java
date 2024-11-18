@@ -1,5 +1,6 @@
 package com.stellargear.heladeria.Models.Entities;
 
+import com.stellargear.heladeria.Models.DTOs.ProductDTO;
 import org.springframework.data.annotation.Id;
 
 import lombok.Getter;
@@ -23,15 +24,8 @@ public class User {
 
     public User() {}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id='" + user_id + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", user_type=" + user_type +
-                ", user_cart=" + user_cart +
-                '}';
+
+    public void addToCart(Product new_item) {
+        user_cart.add(new_item);
     }
 }
