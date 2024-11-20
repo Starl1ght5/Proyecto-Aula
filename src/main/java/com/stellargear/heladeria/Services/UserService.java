@@ -22,6 +22,7 @@ public interface UserService {
 
     User dtoToObject(UserDTO requested_dto);
     UserDTO objectToDto(User requested_object);
+    void clearUserCart(User user_to_clear);
     List<User> dtoListToObject(List<UserDTO> requested_list);
     List<UserDTO> objectListToDto(List<User> requested_list);
 }

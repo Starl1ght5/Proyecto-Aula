@@ -2,7 +2,7 @@ package com.stellargear.heladeria.Services.ServiceImplementations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 
 
 import org.springframework.http.HttpStatus;
@@ -111,6 +111,23 @@ public class ProductServiceImpl implements ProductService {
                 returned_dto.setCategory(category_serv.objectToDto(product.getCategory()));
                 return returned_dto;
             }).toList();
+    }
+
+    @Override
+    public List<ProductDTO> listRandom() {
+        List<Product> db_list = product_repo.findAll();
+        List<ProductDTO> returned_list = new ArrayList<>();
+        Random random = new Random();
+        
+        for (int i = 0; i < 5; i++) {
+            int random_index = random.nextInt(db_list.size());
+
+            ProductDTO db_product = objectToDto(db_list.get(random_index));
+            db_list.remove(random_index);
+            returned_list.add(db_product);
+        }
+
+        return returned_list;
     }
 
 

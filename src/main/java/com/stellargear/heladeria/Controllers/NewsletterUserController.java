@@ -23,6 +23,6 @@ public class NewsletterUserController {
 
     @GetMapping(path = "/api/newsletter/listAll")
     public List<NewsletterUserDTO> listAllNewsletterUsers() {
-        return newsletter_serv.listAll();
+        return newsletter_serv.listAllUsers();
     }
 }

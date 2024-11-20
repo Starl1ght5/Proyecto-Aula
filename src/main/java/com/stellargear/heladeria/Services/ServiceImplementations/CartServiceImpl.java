@@ -31,6 +31,7 @@ public class CartServiceImpl implements CartService {
         CartDTO requested_user_cart = new CartDTO();
         requested_user_cart.setCart_contents(product_serv.objectListToDto(requested_user.getUser_cart()));
         requested_user_cart.setTotal_cart_price(calculateCartTotal(requested_user_cart.getCart_contents()));
+        requested_user_cart.setClient(user_serv.objectToDto(requested_user));
         return requested_user_cart;
     }
 

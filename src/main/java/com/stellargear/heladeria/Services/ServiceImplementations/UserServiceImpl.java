@@ -135,6 +135,15 @@ public class UserServiceImpl implements UserService {
         return requested_object;
     }
 
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void clearUserCart(User user_to_clear) {
+        user_to_clear.setUser_cart(new ArrayList<Product>());
+        user_repo.save(user_to_clear);
+    }
+
+
     @Override
     public UserDTO objectToDto(User requested_object) {
         UserDTO requested_dto = new UserDTO();

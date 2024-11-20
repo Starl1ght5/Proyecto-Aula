@@ -19,6 +19,7 @@ public interface ProductService {
 
     List<ProductDTO> listAll();
     List<ProductDTO> listByCategory(String category_name);
+    List<ProductDTO> listRandom();
 
     Product dtoToObject(ProductDTO requested_dto);
     ProductDTO objectToDto(Product requested_object);

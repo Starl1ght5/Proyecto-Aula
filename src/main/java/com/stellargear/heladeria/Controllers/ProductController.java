@@ -55,4 +55,9 @@ public class ProductController {
     public List<ProductDTO> listByCategory(@PathVariable String requested_id) {
         return product_serv.listByCategory(requested_id);
     }
+
+    @GetMapping(path = "/api/product/search/random")
+    public List<ProductDTO> listRandom() {
+        return product_serv.listRandom();
+    }
 }
