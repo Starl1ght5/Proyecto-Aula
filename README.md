@@ -1,2 +1,2 @@
 # Servidor de Stripe
-usa node src/server.js para ejecutar es servicio de pagos de stripe
+usa el comando `node src/server.js` en la carpeta raiz para ejecutar es servicio de pagos de Stripe
