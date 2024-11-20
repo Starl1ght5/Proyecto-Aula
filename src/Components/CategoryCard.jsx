@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 export const CategoryCard = ({
@@ -28,16 +29,15 @@ export const CategoryCard = ({
         }
 
         fetchImage(id);
-    }, [])
+    }, [id])
+
 
     return (
-        <div class="hover:-translate-y-2 duration-300">
-            <a href="/menu">
-                <div class="bg-pink-400 border border-pink-400 rounded-full p-7 size-60">
-                    <img src={image} alt={title} class="size-52"/>   
-                </div>
-                <h2 class="text-center text-[28px] pt-2 text-pink-600 font-[500]" >{title}</h2>
-            </a>
-        </div>
+        <Link className='cursor-pointer border p-4 rounded-full hover:scale-110 ease-in-out duration-300 bg-pink-400 shadow-2xl' to="/menu" >
+            <div className='overflow-hidden' >
+                <img src={image} alt={title}/>
+            </div>
+            <p className='pt-3 pb-1 text-lg text-center text-white' >{title}</p>
+        </Link>
     )
 }

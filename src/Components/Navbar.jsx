@@ -14,13 +14,13 @@ export default function Navbar () {
     return (
         <div className='flex items-center justify-between py-5 font-medium bg-pink-600 px-14' >
         
-            <div className='flex justify-between gap-2' >
+            <Link to="/" className='flex justify-between gap-2' >
                 <img src={icon} alt="" className='h-[48px]' />
                 <div className='text-white' >
                     <p>Heladeria</p>
                     <p className='text-2xl mt-[-8px]'>Kanitas Dulces</p>
                 </div>
-            </div>
+            </Link>
 
             <ul className='hidden sm:flex gap-5 text-[22px] text-white md:mr-10 lg:mr-10' >
                 

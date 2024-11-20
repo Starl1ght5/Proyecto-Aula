@@ -32,7 +32,7 @@ export const ProductCard = ({
 
         fetchImage(id);
         
-    }, [])
+    }, [id])
 
 
     return (

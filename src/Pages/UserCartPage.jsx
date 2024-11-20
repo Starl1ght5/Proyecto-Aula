@@ -4,12 +4,41 @@ import { CartItemCard } from '../Components/CartItemCard';
 import { useState, useContext, useEffect } from 'react';
 import { StateContext } from '../Context/StateContext';
 import { Helmet } from 'react-helmet';
+import { loadStripe } from '@stripe/stripe-js';
 
 
 export default function UserCartPage () {
     
     const [ cart, setCart ] = useState([]);
     const { user } = useContext(StateContext);
+
+
+    const createPayment = async () => {
+        const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
+
+        let added_value = parseInt(cart.total_cart_price + "00");
+        console.log(cart)
+
+        const payload = {
+            client: cart.client,
+            amount_paid: added_value,
+            currency: "COP",
+            items_brought: cart.cart_contents
+        }
+
+        const response = await fetch("http://localhost:4242/create-checkout-session", {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+        });
+
+        const test = await response.json()
+
+        const result = stripe.redirectToCheckout({
+            sessionId: test.id
+        });
+
+    }
 
     useEffect(() => {
         const getCart = async () => {
@@ -28,7 +57,6 @@ export default function UserCartPage () {
         }
 
         getCart();
-
 
         const intervalId = setInterval(getCart, 1500);
         return () => clearInterval(intervalId);
@@ -90,6 +118,9 @@ export default function UserCartPage () {
                             <div className='flex justify-between mt-1 font-normal' >
                                 <p className='font-medium text-lg' >Valor Total:</p>
                                 <p>${cart.total_cart_price?.toLocaleString('es-CO')} COP</p>
+                            </div>
+                            <div className='w-full text-end'>
+                                <button className='my-8 px-8 py-4 text-white bg-pink-600 text-sm' onClick={createPayment} >Continuar a la pasarela de pago</button>
                             </div>
   
                         </div>

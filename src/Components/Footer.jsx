@@ -23,6 +23,10 @@ export default function Footer () {
 
             if (res.status === 200) {
                 toastNotification("Felicidades, ahora estas registrado en nuestro newsletter!")
+            } else {
+                setError("root", {
+                    message: "Este correo ya esta registrado en nuestro newsletter"
+                });
             }
 
         } catch (e) {
@@ -34,10 +38,10 @@ export default function Footer () {
 
     return (
 
-    <div className='bg-pink-600 text-white' >
+    <div className='bg-pink-600 text-white pt-6' >
         <div className='flex flex-col sm:grid grid-cols-[4fr_1fr_1fr] gap-14 my-10 mt-10 pt-10 px-24 text-sm' >
 
-            <div>
+            <div className='mb-4' >
                 <div className='text-white mt-[-8px]' >
                     <p className='text-lg' >Heladeria</p>
                     <p className='text-2xl mt-[-8px]'>Kanitas Dulces</p>

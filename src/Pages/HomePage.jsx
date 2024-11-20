@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import { CategoryCard } from '../Components/CategoryCard';
 import Footer from '../Components/Footer';
 import { Helmet } from 'react-helmet';
+import template from '../temp/26-06.jpg'
+import { ProductCard } from '../Components/ProductCard';
+import { useEffect, useState } from 'react';
 
 
 export default function LoginPage () {
 
-  const [category, setCategory] = useState([]);
+  const [ categories, setCategories ] = useState([]);
+  const [ randomProducts, setRandomProducts ] = useState([]);
 
 
   useEffect(() => {
@@ -19,7 +22,7 @@ export default function LoginPage () {
               headers: { 'Content-Type': 'application/json' },
           })
           response.json().then(json => {
-              setCategory(json);
+              setCategories(json);
           })
 
       } catch (e) {
@@ -27,46 +30,105 @@ export default function LoginPage () {
       }
     }
 
-    fetchCategories();
+    const fetchRandom = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/product/search/random", {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          response.json().then(json => {
+              setRandomProducts(json);
+          })
 
-  })
+      } catch(e) {
+        console.log(e);
+      }
+    }
+
+
+    fetchCategories();
+    fetchRandom();
+  }, [])
 
 
   return (
-    <div class="">
+    <div>
         <Helmet><title>Heladeria</title></Helmet>
-
-
         <Navbar />
         
-        <div class="bg-test-background bg-cover px-14 h-[450px]">
-        </div>
+          <div className='px-20 mb-14 py-5' >
+            
+            <div className='flex flex-col sm:flex-row border border-pink-600 mt-4 shadow-xl' >
+              
+              <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0' >
 
-        <section class="h-auto px-14 pt-12">
-          <h2></h2>
-        </section>
+                <div className='text-gray-600' >
 
-        <section class="py-8 mx-auto">
+                  <div className='flex items-center gap-2' >
+                    <p className='font-medium text-sm md:text-base' >Lo que sea</p>
+                  </div>
 
-          <div class="w-full p-2 pb-6 flex justify-center">
-				    <h1 class="font-bold text-pink-600 text-5xl">Ofrecemos</h1>
-			    </div>
+                  <h1 className='text-3xl sm:py-3 lG:text-5xl leading-relaxed' >Lo que sea</h1>
 
-          <hr class="h-[4px] bg-pink-600 border-pink-600 w-96 place-self-center"/>
-          
-          <div class="flex justify-center gap-8 pt-10">
+                  <div className='flex items-center gap-2' >
+                    <p className='w-8 md:w-11 h-[1px] bg-complementary' ></p>
+                    <p className='font-semibold text-sm md:text-base text-pink-600' >Compra Ahora!</p>
+                    <p className='w-8 md:w-11 h-[1px] bg-complementary' ></p>
+                  </div>
 
-            {category.map( element => {
+                </div>
+                
+              <img className='w-full sm:w-1/2' src={template} alt="alt" />
 
-              const { name, category_id } = element;
+              </div>
+            </div>
 
-              return (
-                <CategoryCard title={name} id={category_id}/>
-              );
-            })}
+
+            <div className='my-10' >
+              <div className='text-center py-8 text-3xl' >
+
+              </div>
+            </div>
+
+
+            <div className='my-10' >
+              <div className='text-center py-8 text-3xl' >
+              <div className='inline-flex gap-2 items-center mb-3 flex-col' >
+                  <p className=''>En nuestra tienda te <span className='font-bold text-pink-600' >ofrecemos</span>:</p>
+                  <hr className='w-[120%] border-none h-[1.5px] bg-black' ></hr>
+                </div>
+              </div>
+              <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 justify-items-center' >
+                {categories?.map( element => {
+                  const { category_id, name} = element;
+
+                  return (
+                    <CategoryCard id={category_id} title={name} />
+                  )
+                })}
+              </div>
+            </div>
+
+
+            <div className='my-10' >
+              <div className='text-center py-8 text-3xl' >
+                <div className='inline-flex gap-2 items-center mb-3' >
+                  <p className=''>Conoce algunos de nuestros productos</p>
+                </div>
+                <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+              </div>
+              <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6' >
+                {randomProducts?.map( element => {
+                  const { product_id, name, price } = element;
+
+                  return (
+                    <ProductCard id={product_id} name={name} price={price} />
+                  )
+                })}
+              </div>
+            </div>
+
           </div>
-          
-        </section>
 
         <Footer />
     </div>
