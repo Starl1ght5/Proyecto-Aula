@@ -1,9 +1,8 @@
 package com.stellargear.heladeria.Repositories;
 
+import com.stellargear.heladeria.Models.Entities.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-
-import com.stellargear.heladeria.Models.Entities.User;
 
 public interface UserRepository extends MongoRepository<User, String>{
 

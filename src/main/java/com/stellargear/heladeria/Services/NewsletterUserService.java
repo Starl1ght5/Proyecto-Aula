@@ -2,7 +2,6 @@ package com.stellargear.heladeria.Services;
 
 import com.stellargear.heladeria.Models.DTOs.NewsletterUserDTO;
 import com.stellargear.heladeria.Models.DTOs.UserDTO;
-import com.stellargear.heladeria.Models.Entities.NewsletterUser;
 import com.stellargear.heladeria.Models.Entities.User;
 import org.springframework.http.ResponseEntity;
 

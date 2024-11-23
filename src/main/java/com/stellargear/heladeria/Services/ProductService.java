@@ -1,18 +1,16 @@
 package com.stellargear.heladeria.Services;
 
-import java.util.List;
-
+import com.stellargear.heladeria.Models.DTOs.ProductDTO;
 import com.stellargear.heladeria.Models.Entities.Product;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.stellargear.heladeria.Models.DTOs.ProductDTO;
+import java.util.List;
 
 public interface ProductService {
     
     ResponseEntity<?> addProduct(ProductDTO new_product);
-    void deleteProduct(String product_id);
-    void updateProduct(String requested_id, ProductDTO new_details);
+    ResponseEntity<?> deleteProduct(String product_id);
+    ResponseEntity<?> updateProduct(ProductDTO new_details);
 
     ProductDTO searchProductByName(String requested_name);
     ProductDTO searchProductById(String requested_id);

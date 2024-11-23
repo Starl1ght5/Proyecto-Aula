@@ -1,6 +1,5 @@
 package com.stellargear.heladeria.Models.DTOs;
 
-import com.stellargear.heladeria.Models.Entities.User;
 import lombok.Getter;
 import lombok.Setter;
 

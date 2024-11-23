@@ -1,15 +1,12 @@
 package com.stellargear.heladeria.Controllers;
 
-import java.util.List;
-
+import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
+import com.stellargear.heladeria.Services.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
-import com.stellargear.heladeria.Services.CategoryService;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,27 +17,24 @@ public class CategoryController {
 
 
     /// Manipulation Routes
-    @PostMapping(path="/api/category/add")
+    @PostMapping(path = "/api/category/add")
     public ResponseEntity<?> addCategory(@ModelAttribute CategoryDTO new_category) {
         return category_serv.addCategory(new_category);
     }
 
-
-    @DeleteMapping(path="/api/category/delete")
-    public void deleteCategory(@RequestParam String category_id) {
-        category_serv.deleteCategory(category_id);
+    @DeleteMapping(path = "/api/category/delete/{requested_id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable String requested_id) {
+        return category_serv.deleteCategory(requested_id);
     }
 
-
-    /// TODO Hacer esto cuando implemente lo del servicio
-    @PutMapping(path="/api/category/update")
-    public void updateCategory() {
-        
+    @PutMapping(path = "/api/category/update")
+    public ResponseEntity<?> updateCategory(@ModelAttribute CategoryDTO new_details) {
+        return category_serv.updateCategory(new_details);
     }
 
 
     /// Search Routes
-    @GetMapping(path="/api/category/listAll")
+    @GetMapping(path = "/api/category/listAll")
     public List<CategoryDTO> listAllCategory() {
         return category_serv.listAll();
     }

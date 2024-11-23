@@ -1,10 +1,8 @@
 package com.stellargear.heladeria.Models.Entities;
 
-import com.stellargear.heladeria.Models.DTOs.ProductDTO;
-import org.springframework.data.annotation.Id;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;

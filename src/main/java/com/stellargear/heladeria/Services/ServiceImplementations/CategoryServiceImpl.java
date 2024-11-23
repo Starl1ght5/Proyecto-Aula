@@ -1,24 +1,18 @@
 package com.stellargear.heladeria.Services.ServiceImplementations;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
+import com.stellargear.heladeria.Models.Entities.Category;
+import com.stellargear.heladeria.Repositories.CategoryRepository;
+import com.stellargear.heladeria.Services.CategoryService;
 import com.stellargear.heladeria.Services.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stellargear.heladeria.Models.DTOs.CategoryDTO;
-import com.stellargear.heladeria.Repositories.CategoryRepository;
-import com.stellargear.heladeria.Services.CategoryService;
-
-import lombok.RequiredArgsConstructor;
-
-import com.stellargear.heladeria.Models.Entities.Category;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -36,24 +30,27 @@ public class CategoryServiceImpl implements CategoryService {
         added_category.setName(new_category.getName());
         category_repo.save(added_category);
         image_serv.uploadCategoryImage(added_category.getCategory_id(), new_category.getImage());
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void deleteCategory (String category_id) {
+    public ResponseEntity<?> deleteCategory (String category_id) {
         category_repo.deleteById(category_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateCategory (String category_id, String new_name) {
+    public ResponseEntity<?> updateCategory (CategoryDTO new_details) {
         Category updated_category = new Category();
-        updated_category.setCategory_id(category_id);
-        updated_category.setName(new_name);
+        updated_category.setCategory_id(new_details.getCategory_id());
+        updated_category.setName(new_details.getName());
         category_repo.save(updated_category);
+        image_serv.uploadCategoryImage(updated_category.getCategory_id(), new_details.getImage());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

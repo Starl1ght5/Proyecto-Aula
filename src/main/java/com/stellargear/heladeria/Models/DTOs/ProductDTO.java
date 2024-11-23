@@ -2,7 +2,6 @@ package com.stellargear.heladeria.Models.DTOs;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 

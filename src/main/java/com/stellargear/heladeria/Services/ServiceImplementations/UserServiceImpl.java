@@ -1,22 +1,20 @@
 package com.stellargear.heladeria.Services.ServiceImplementations;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.stellargear.heladeria.Models.DTOs.UserDTO;
 import com.stellargear.heladeria.Models.Entities.Product;
+import com.stellargear.heladeria.Models.Entities.User;
+import com.stellargear.heladeria.Repositories.UserRepository;
 import com.stellargear.heladeria.Services.ProductService;
+import com.stellargear.heladeria.Services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stellargear.heladeria.Models.DTOs.UserDTO;
-import com.stellargear.heladeria.Models.Entities.User;
-import com.stellargear.heladeria.Repositories.UserRepository;
-import com.stellargear.heladeria.Services.UserService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RequiredArgsConstructor

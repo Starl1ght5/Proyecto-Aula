@@ -1,16 +1,5 @@
 package com.stellargear.heladeria.Services.ServiceImplementations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.stellargear.heladeria.Models.DTOs.ProductDTO;
 import com.stellargear.heladeria.Models.Entities.Category;
 import com.stellargear.heladeria.Models.Entities.Product;
@@ -18,8 +7,16 @@ import com.stellargear.heladeria.Repositories.ProductRepository;
 import com.stellargear.heladeria.Services.CategoryService;
 import com.stellargear.heladeria.Services.ImageService;
 import com.stellargear.heladeria.Services.ProductService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 @RequiredArgsConstructor
@@ -42,14 +39,14 @@ public class ProductServiceImpl implements ProductService {
         added_product.setCategory(category_serv.dtoToObject(category_serv.searchByID(new_product.getCategory_id())));
         product_repo.save(added_product);
         image_serv.uploadProductImage(added_product.getProduct_id(), new_product.getImage());
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateProduct(String requested_id, ProductDTO new_details) {
-        Product db_product = product_repo.searchById(requested_id);
+    public ResponseEntity<?> updateProduct(ProductDTO new_details) {
+        Product db_product = product_repo.searchById(new_details.getProduct_id());
 
         if (db_product != null) {
             Product updated_product = new Product();
@@ -60,13 +57,17 @@ public class ProductServiceImpl implements ProductService {
             updated_product.setCategory(category_serv.dtoToObject(new_details.getCategory()));
             product_repo.save(updated_product);
             image_serv.uploadProductImage(updated_product.getProduct_id(), new_details.getImage());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void deleteProduct(String product_id) {
+    public ResponseEntity<?> deleteProduct(String product_id) {
         product_repo.deleteById(product_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

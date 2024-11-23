@@ -1,15 +1,13 @@
 package com.stellargear.heladeria.Controllers;
 
-import java.util.List;
-
+import com.stellargear.heladeria.Models.DTOs.UserDTO;
+import com.stellargear.heladeria.Services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.stellargear.heladeria.Models.DTOs.UserDTO;
-import com.stellargear.heladeria.Services.UserService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

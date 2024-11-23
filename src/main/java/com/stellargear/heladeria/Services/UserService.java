@@ -1,10 +1,10 @@
 package com.stellargear.heladeria.Services;
 
-import java.util.List;
-
 import com.stellargear.heladeria.Models.DTOs.UserDTO;
 import com.stellargear.heladeria.Models.Entities.User;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface UserService {
     
