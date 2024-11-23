@@ -4,9 +4,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
 import LoginPage from './Pages/LoginPage';
 import RegistrationPage from './Pages/RegistrationPage';
-import AdminProductManagementPage from './Pages/Admin/AdminProductManagementPage';
 import AdminHomePage from './Pages/Admin/AdminHomePage';
 import MenuPage from './Pages/MenuPage';
+import DeclinedPage from './Pages/DeclinedPage';
+import AcceptedPage from './Pages/AcceptedPage';
 import UserCartPage from './Pages/UserCartPage';
 import ProductPage from './Pages/ProductPage';
 import StateComponent from './Context/StateComponent';
@@ -38,12 +39,16 @@ const router = createBrowserRouter([
     element: <ProductPage />,
   },
   {
-    path: "/admin/home",
-    element: <AdminHomePage />,
+    path: "/decline",
+    element: <DeclinedPage />,
   },
   {
-    path: "/admin/product",
-    element: <AdminProductManagementPage />,
+    path: "/success",
+    element: <AcceptedPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminHomePage />,
   }
 ]);
 

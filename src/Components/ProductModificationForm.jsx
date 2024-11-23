@@ -4,7 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-export default function ProductCreationForm () {
+export const ProductModificationForm = ({
+    id,
+    name,
+    price,
+    desc
+}) => {
 
     const [ categories, setCategories ] = useState([]);
     const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
@@ -18,21 +23,22 @@ export default function ProductCreationForm () {
 
             const formData = new FormData();
 
+            formData.append("product_id", id)
             formData.append("name", data.name);
             formData.append("description", data.description);
             formData.append("price", data.price);
             formData.append("category_id", data.category_id);
             formData.append("image", data.image[0]);
 
-            const response = await fetch("http://localhost:8080/api/product/add", {
-                method: 'POST',
+            const response = await fetch("http://localhost:8080/api/product/update", {
+                method: 'PUT',
                 body: formData,
             });
 
             const res = await response;
 
             if (res.status === 200) {
-                toastNotification("Producto creado Exitosamente!")
+                toastNotification("Producto Actualizado Exitosamente!")
             } else {
                 toastNotification("Ha ocurrido un error inesperado")
             }
@@ -71,20 +77,20 @@ export default function ProductCreationForm () {
         <section className='border p-5 bg-blue-600' >
 
             <form onSubmit={onSubmit} className='flex flex-col gap-2 px-4' >
-                <label className='text-white text-2xl' >Creacion de productos</label>
+                <label className='text-white text-2xl' >Modificar Producto</label>
 
                 <label className='text-white mt-2' >Nombre</label>
-                <input type="text" className='px-2 pt-1' {...register("name", {
+                <input type="text" defaultValue={name} className='px-2 pt-1' {...register("name", {
                     required: "Nombre del producto requerido" })} />
                 {errors.name && <div className='pt-1 text-sm'>{errors.name.message}</div>} 
 
                 <label className='text-white' >Descripcion</label>
-                <input type="textarea" className='px-2 pt-1' {...register("description", {
+                <input type="textarea" defaultValue={desc} className='px-2 pt-1' {...register("description", {
                     required: "Descripcion requerida" })} />
                 {errors.description && <div className='pt-1 text-sm' >{errors.description.message}</div>} 
 
                 <label className='text-white' >Precio</label>
-                <input type="number" className='px-2 pt-1' {...register("price", {
+                <input type="number" defaultValue={price} className='px-2 pt-1' {...register("price", {
                     required: "Precio del producto requerido" })} />
                 {errors.price && <div className='pt-1 text-sm'>{errors.price.message}</div>} 
 

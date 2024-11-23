@@ -14,30 +14,33 @@ export default function UserCartPage () {
 
 
     const createPayment = async () => {
-        const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
+        try {
+            const stripe = await loadStripe("pk_test_51OEkaAAZPRRqn7nghZ3JdSkVsMS64xrdnTxyqlnPoJjjDZEiuUbJ7cEGgWgbU8MzE6RMtK8sTtLHdKl4c3Myf8LE007tm0JPdo");
 
-        let added_value = parseInt(cart.total_cart_price + "00");
-        console.log(cart)
+            let added_value = parseInt(cart.total_cart_price + "00");
 
-        const payload = {
-            client: cart.client,
-            amount_paid: added_value,
-            currency: "COP",
-            items_brought: cart.cart_contents
-        }
+            const payload = {
+                client: cart.client,
+                amount_paid: added_value,
+                currency: "COP",
+                items_brought: cart.cart_contents
+            }
 
-        const response = await fetch("http://localhost:4242/create-checkout-session", {
+            const response = await fetch("http://localhost:4242/create-checkout-session", {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: { 'Content-Type': 'application/json' }
-        });
+            });
 
-        const test = await response.json()
+            const test = await response.json()
 
-        const result = stripe.redirectToCheckout({
-            sessionId: test.id
-        });
-
+            const result = stripe.redirectToCheckout({
+                sessionId: test.id
+            });
+        } catch (e) {
+            console.log(e)
+        }
+        
     }
 
     useEffect(() => {

@@ -110,7 +110,7 @@ export default function ProductPage () {
                                 <p className='mt-5 text-3xl' >${product.price?.toLocaleString('es-CO')} <span className='font-medium' >COP</span></p>
 
                                 <div className='mt-5' >
-                                    <p className='text-xl' >Contiene:</p>
+                                    <hr></hr>
                                     <p className='mt-4 mb-6 text-gray-500' >{product.description}</p>
                                 </div>
 

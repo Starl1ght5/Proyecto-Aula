@@ -60,36 +60,28 @@ export default function LoginPage () {
             
             <div className='flex flex-col sm:flex-row border border-pink-600 mt-4 shadow-xl' >
               
-              <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0' >
+              <div className='w-full sm:w-1/2 flex items-center justify-center py-4 sm:py-0' >
 
                 <div className='text-gray-600' >
-
                   <div className='flex items-center gap-2' >
-                    <p className='font-medium text-sm md:text-base' >Lo que sea</p>
+                    <p className='font-medium text-2xl md:text-base' >Promocion 2x1!</p>
                   </div>
 
-                  <h1 className='text-3xl sm:py-3 lG:text-5xl leading-relaxed' >Lo que sea</h1>
+                  <h1 className='text-3xl sm:py-3 lG:text-5xl leading-relaxed' >2 Paletas por el precio de una!</h1>
 
                   <div className='flex items-center gap-2' >
                     <p className='w-8 md:w-11 h-[1px] bg-complementary' ></p>
-                    <p className='font-semibold text-sm md:text-base text-pink-600' >Compra Ahora!</p>
+                    <p className='font-semibold text-xl md:text-base text-pink-600' >Compra Ahora!</p>
                     <p className='w-8 md:w-11 h-[1px] bg-complementary' ></p>
                   </div>
-
                 </div>
-                
-              <img className='w-full sm:w-1/2' src={template} alt="alt" />
 
               </div>
+
+              <img className='w-full sm:w-1/2 p-14' src={template} alt="alt" />
+
             </div>
-
-
-            <div className='my-10' >
-              <div className='text-center py-8 text-3xl' >
-
-              </div>
-            </div>
-
+            
 
             <div className='my-10' >
               <div className='text-center py-8 text-3xl' >

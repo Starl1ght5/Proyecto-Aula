@@ -33,10 +33,10 @@ export default function LoginPage () {
                 navigate("/");
 
             } else if (res.status === 202 ) {
-                setError("root", {
-                    message: "eres admin"
-                });
+                toastNotification("Sesion iniciada correctamente, bienvenid@ administrador")
+                await new Promise((resolve) => setTimeout(resolve, 2000));
                 setUser(user_info);
+                navigate("/admin");
 
             } else if (res.status === 400) {
                 setError("password", {
